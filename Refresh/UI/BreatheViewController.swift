@@ -8,14 +8,55 @@
 
 import UIKit
 
-class BreatheViewController: UIViewController {
+final class BreatheViewController: UIViewController {
 
     var constraints = [NSLayoutConstraint]()
-    let welcomeLabel = UILabel()
-    let settingsHeaderLabel = UILabel()
-    let settingsTableView = UITableView()
-    let startButton = UIButton(type: .custom)
-    let editButton = UIButton(type: .roundedRect)
+    let welcomeLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.numberOfLines = 0
+        l.textColor = .secondaryLabel
+        l.text = NSLocalizedString("Take a few seconds to find a comfortable spot.",
+                                              comment: "Tells the user to a comfortable position before starting the exercise.")
+        return l
+    }()
+
+    let settingsHeaderLabel: UILabel = {
+        let l = UILabel()
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.textColor = .label
+        l.font = UIFont.boldSystemFont(ofSize: 16)
+        l.text = NSLocalizedString("Session settings",
+                                   comment: "Header to show the settings for the breathing session.")
+        return l
+    }()
+
+    let settingsTableView: UITableView = {
+        let t = UITableView()
+        t.translatesAutoresizingMaskIntoConstraints = false
+        t.allowsSelection = false
+        t.isScrollEnabled = false
+        t.tableFooterView = UIView(frame: .zero)
+        t.register(BreatheTableViewCell.self, forCellReuseIdentifier: BreatheTableViewCell.identifier())
+        return t
+    }()
+
+    let startButton: UIButton = {
+        let b = UIButton(type: .custom)
+        b.translatesAutoresizingMaskIntoConstraints = false
+        b.setTitle(NSLocalizedString("Begin", comment: "Button to start the breathing exercise"), for: .normal)
+        b.setTitleColor(.white, for: .normal)
+        b.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
+        return b
+    }()
+
+    let editButton: UIButton = {
+        let b = UIButton(type: .roundedRect)
+        b.translatesAutoresizingMaskIntoConstraints = false
+        b.contentHorizontalAlignment = .trailing
+        b.setTitle(NSLocalizedString("Edit", comment: "Button to edit the breathing session settings"), for: .normal)
+        return b
+    }()
     
     let sessionData = Session.sessionDataArray(Session.defaultSession())
 
@@ -30,42 +71,19 @@ class BreatheViewController: UIViewController {
         title = NSLocalizedString("Welcome.", comment: "The title displayed on the primary screen.")
         navigationController?.navigationBar.prefersLargeTitles = true
     
-        startButton.translatesAutoresizingMaskIntoConstraints = false
         startButton.addTarget(self, action: #selector(self.startButtonPressed), for: .touchUpInside)
-        startButton.setTitle(NSLocalizedString("Begin", comment: "Button to start the breathing exercise"), for: .normal)
-        startButton.setTitleColor(.white, for: .normal)
-        startButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16.0)
         startButton.layer.cornerRadius = buttonCornerRadius
         startButton.layer.backgroundColor = CGColor(srgbRed: 99.0/255.0, green: 209.0/255.0, blue: 159.0/255.0, alpha: 1.0)
         view.addSubview(startButton)
         
-        editButton.translatesAutoresizingMaskIntoConstraints = false
-        editButton.contentHorizontalAlignment = .trailing
         editButton.addTarget(self, action: #selector(self.editButtonPressed), for: .touchUpInside)
-        editButton.setTitle(NSLocalizedString("Edit", comment: "Button to edit the breathing session settings"), for: .normal)
         view.addSubview(editButton)
-        
-        welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
-        welcomeLabel.numberOfLines = 0
-        welcomeLabel.textColor = .secondaryLabel
-        welcomeLabel.text = NSLocalizedString("Take a few seconds to find a comfortable spot.",
-                                              comment: "Tells the user to a comfortable position before starting the exercise.")
+
         view.addSubview(welcomeLabel)
-        
-        settingsHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
-        settingsHeaderLabel.textColor = .label
-        settingsHeaderLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        settingsHeaderLabel.text = NSLocalizedString("Session settings",
-            comment: "Header to show the settings for the breathing session.")
         view.addSubview(settingsHeaderLabel)
 
-        settingsTableView.translatesAutoresizingMaskIntoConstraints = false
         settingsTableView.dataSource = self
         settingsTableView.delegate = self
-        settingsTableView.allowsSelection = false
-        settingsTableView.isScrollEnabled = false
-        settingsTableView.tableFooterView = UIView(frame: .zero)
-        settingsTableView.register(BreatheTableViewCell.self, forCellReuseIdentifier: BreatheTableViewCell.identifier())
         view.addSubview(settingsTableView)
     }
     
