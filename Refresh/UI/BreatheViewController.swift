@@ -12,8 +12,12 @@ class BreatheViewController: UIViewController {
 
     var constraints = [NSLayoutConstraint]()
     let welcomeLabel = UILabel()
-    let startButton = UIButton(type: .roundedRect)
+    let settingsHeaderLabel = UILabel()
     let settingsTableView = UITableView()
+    let startButton = UIButton(type: .custom)
+    let editButton = UIButton(type: .roundedRect)
+    
+    let sessionData = Session.sessionDataArray(Session.defaultSession())
 
     // Constants
     let viewMargin: CGFloat = 20
@@ -24,10 +28,7 @@ class BreatheViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.systemBackground
         title = NSLocalizedString("Welcome.", comment: "The title displayed on the primary screen.")
-
         navigationController?.navigationBar.prefersLargeTitles = true
-        let settingsButton = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: #selector(self.settingsButtonPressed))
-        navigationItem.setRightBarButton(settingsButton, animated: false)
     
         startButton.translatesAutoresizingMaskIntoConstraints = false
         startButton.addTarget(self, action: #selector(self.startButtonPressed), for: .touchUpInside)
@@ -38,16 +39,30 @@ class BreatheViewController: UIViewController {
         startButton.layer.backgroundColor = CGColor(srgbRed: 99.0/255.0, green: 209.0/255.0, blue: 159.0/255.0, alpha: 1.0)
         view.addSubview(startButton)
         
+        editButton.translatesAutoresizingMaskIntoConstraints = false
+        editButton.contentHorizontalAlignment = .trailing
+        editButton.addTarget(self, action: #selector(self.editButtonPressed), for: .touchUpInside)
+        editButton.setTitle(NSLocalizedString("Edit", comment: "Button to edit the breathing session settings"), for: .normal)
+        view.addSubview(editButton)
+        
         welcomeLabel.translatesAutoresizingMaskIntoConstraints = false
         welcomeLabel.numberOfLines = 0
         welcomeLabel.textColor = .secondaryLabel
         welcomeLabel.text = NSLocalizedString("Take a few seconds to find a comfortable spot.",
                                               comment: "Tells the user to a comfortable position before starting the exercise.")
         view.addSubview(welcomeLabel)
+        
+        settingsHeaderLabel.translatesAutoresizingMaskIntoConstraints = false
+        settingsHeaderLabel.textColor = .label
+        settingsHeaderLabel.font = UIFont.boldSystemFont(ofSize: 16)
+        settingsHeaderLabel.text = NSLocalizedString("Session settings",
+            comment: "Header to show the settings for the breathing session.")
+        view.addSubview(settingsHeaderLabel)
 
         settingsTableView.translatesAutoresizingMaskIntoConstraints = false
         settingsTableView.dataSource = self
         settingsTableView.delegate = self
+        settingsTableView.allowsSelection = false
         settingsTableView.isScrollEnabled = false
         settingsTableView.tableFooterView = UIView(frame: .zero)
         settingsTableView.register(BreatheTableViewCell.self, forCellReuseIdentifier: BreatheTableViewCell.identifier())
@@ -66,10 +81,17 @@ class BreatheViewController: UIViewController {
             constraints.append(welcomeLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: viewMargin))
             constraints.append(welcomeLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -viewMargin))
             
-            constraints.append(settingsTableView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor))
+            constraints.append(settingsHeaderLabel.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 20))
+            constraints.append(settingsHeaderLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: viewMargin))
+            constraints.append(settingsHeaderLabel.trailingAnchor.constraint(equalTo: editButton.leadingAnchor, constant: -viewMargin))
+            
+            constraints.append(editButton.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 14))
+            constraints.append(editButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -viewMargin))
+            
+            constraints.append(settingsTableView.topAnchor.constraint(equalTo: settingsHeaderLabel.bottomAnchor, constant: 8))
             constraints.append(settingsTableView.bottomAnchor.constraint(equalTo: startButton.topAnchor))
-            constraints.append(settingsTableView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: viewMargin))
-            constraints.append(settingsTableView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -viewMargin))
+            constraints.append(settingsTableView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor))
+            constraints.append(settingsTableView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor))
 
             NSLayoutConstraint.activate(constraints)
         }
@@ -78,7 +100,7 @@ class BreatheViewController: UIViewController {
 
     // MARK: Actions
 
-    @objc func settingsButtonPressed() {
+    @objc func editButtonPressed() {
         self.navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
@@ -99,7 +121,7 @@ extension BreatheViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: BreatheTableViewCell.identifier(),
                                                  for: indexPath) as! BreatheTableViewCell
-        cell.textLabel?.text = "text"
+        cell.textLabel?.text = sessionData[indexPath.row]
         return cell
     }
 }
