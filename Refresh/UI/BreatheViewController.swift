@@ -13,6 +13,7 @@ class BreatheViewController: UIViewController {
     var constraints = [NSLayoutConstraint]()
     let welcomeLabel = UILabel()
     let startButton = UIButton(type: .roundedRect)
+    let settingsTableView = UITableView()
 
     // Constants
     let viewMargin: CGFloat = 20
@@ -43,6 +44,14 @@ class BreatheViewController: UIViewController {
         welcomeLabel.text = NSLocalizedString("Take a few seconds to find a comfortable spot.",
                                               comment: "Tells the user to a comfortable position before starting the exercise.")
         view.addSubview(welcomeLabel)
+
+        settingsTableView.translatesAutoresizingMaskIntoConstraints = false
+        settingsTableView.dataSource = self
+        settingsTableView.delegate = self
+        settingsTableView.isScrollEnabled = false
+        settingsTableView.tableFooterView = UIView(frame: .zero)
+        settingsTableView.register(BreatheTableViewCell.self, forCellReuseIdentifier: BreatheTableViewCell.identifier())
+        view.addSubview(settingsTableView)
     }
     
     override func updateViewConstraints() {
@@ -56,6 +65,11 @@ class BreatheViewController: UIViewController {
             constraints.append(welcomeLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor))
             constraints.append(welcomeLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: viewMargin))
             constraints.append(welcomeLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -viewMargin))
+            
+            constraints.append(settingsTableView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor))
+            constraints.append(settingsTableView.bottomAnchor.constraint(equalTo: startButton.topAnchor))
+            constraints.append(settingsTableView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: viewMargin))
+            constraints.append(settingsTableView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: -viewMargin))
 
             NSLayoutConstraint.activate(constraints)
         }
@@ -70,6 +84,23 @@ class BreatheViewController: UIViewController {
     
     @objc func startButtonPressed() {
         print("begin pressed")
+    }
+}
+
+extension BreatheViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: BreatheTableViewCell.identifier(),
+                                                 for: indexPath) as! BreatheTableViewCell
+        cell.textLabel?.text = "text"
+        return cell
     }
 }
 

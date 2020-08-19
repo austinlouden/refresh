@@ -15,6 +15,8 @@
 		283C541724ECC89F009856C8 /* RefreshUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283C541624ECC89F009856C8 /* RefreshUITests.swift */; };
 		283C543E24ECDF1C009856C8 /* BreatheViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283C543C24ECDF1C009856C8 /* BreatheViewController.swift */; };
 		283C543F24ECDF1C009856C8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283C543D24ECDF1C009856C8 /* SettingsViewController.swift */; };
+		283C544424ECE7A8009856C8 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283C544324ECE7A8009856C8 /* Session.swift */; };
+		283C544624ECEE0D009856C8 /* BreatheTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283C544524ECEE0D009856C8 /* BreatheTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		283C541824ECC8A0009856C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		283C543C24ECDF1C009856C8 /* BreatheViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BreatheViewController.swift; sourceTree = "<group>"; };
 		283C543D24ECDF1C009856C8 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		283C544324ECE7A8009856C8 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		283C544524ECEE0D009856C8 /* BreatheTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreatheTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 		283C53F324ECC89C009856C8 /* Refresh */ = {
 			isa = PBXGroup;
 			children = (
+				283C544024ECE74A009856C8 /* Storage */,
 				283C543B24ECDF1C009856C8 /* UI */,
 				283C53F424ECC89C009856C8 /* AppDelegate.swift */,
 				283C53F624ECC89D009856C8 /* SceneDelegate.swift */,
@@ -131,9 +136,18 @@
 			isa = PBXGroup;
 			children = (
 				283C543C24ECDF1C009856C8 /* BreatheViewController.swift */,
+				283C544524ECEE0D009856C8 /* BreatheTableViewCell.swift */,
 				283C543D24ECDF1C009856C8 /* SettingsViewController.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		283C544024ECE74A009856C8 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				283C544324ECE7A8009856C8 /* Session.swift */,
+			);
+			path = Storage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,10 +280,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				283C544424ECE7A8009856C8 /* Session.swift in Sources */,
 				283C53F524ECC89D009856C8 /* AppDelegate.swift in Sources */,
 				283C53F724ECC89D009856C8 /* SceneDelegate.swift in Sources */,
 				283C543E24ECDF1C009856C8 /* BreatheViewController.swift in Sources */,
 				283C543F24ECDF1C009856C8 /* SettingsViewController.swift in Sources */,
+				283C544624ECEE0D009856C8 /* BreatheTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
