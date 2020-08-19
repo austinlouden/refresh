@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BreatheViewController.swift
 //  Refresh
 //
 //  Created by Austin Louden on 8/18/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class BreatheViewController: UIViewController {
 
     var constraints = [NSLayoutConstraint]()
     let startButton = UIButton(type: .roundedRect)
@@ -56,6 +56,5 @@ class ViewController: UIViewController {
     @objc func startButtonPressed() {
         print("begin pressed")
     }
-
 }
 
